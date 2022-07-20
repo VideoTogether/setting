@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <script>
+        window.addEventListener("message", e => {
+            if (e.data.type == 11 || e.data.type == 10) {
+                console.log(e.data);
+                document.querySelector("#MinimiseDefault").checked = e.data.data.MinimiseDefault;
+                document.querySelector("#PublicVideoRoom").checked = e.data.data.PublicVideoRoom;
+                document.querySelector("#DisableRedirectJoin").checked = e.data.data.DisableRedirectJoin;
+                document.querySelector("#PasswordProtectedRoom").checked = e.data.data.PasswordProtectedRoom;
+
+            }
+        });
+
+    // if ('serviceWorker' in navigator) {
+    //     navigator.serviceWorker.register('/sw.js').then(function (registration) {
+    //         console.log('install success', registration.scope);
+    //     }).catch(function (err) {
+    //         console.log(err);
+    //     });
+    // }
+    // function PostStorage() {
+    //     window.top.postMessage({
+    //         type: window.VideoTogetherStoragePosted ? 11 : 10,
+    //         data: {
+    //             MinimiseDefault: localStorage.getItem("MinimiseDefault") == 'true',
+    //             PublicVideoRoom: localStorage.getItem("PublicVideoRoom") == 'true',
+    //             DisableRedirectJoin: localStorage.getItem("DisableRedirectJoin") == 'true',
+    //             PasswordProtectedRoom: localStorage.getItem("PasswordProtectedRoom") == 'true',
+    //         }
+    //     }, "*");
+    // }
+    // PostStorage();
+    // setInterval(() => {
+    //     PostStorage();
+    // }, 1000);
+
+    </script>
+    <iframe style="display: none;" id="storage" src="https://storage.2gether.video/"></iframe>
+
+    <!-- Rectangular switch -->
+
+    <label class="switch">
+        <input id="MinimiseDefault" type="checkbox">
+        <span class="slider round"></span>
+    </label>
+    <p>窗口默认最小化，可以通过点击右下角的小图标显示窗口</p>
+    <label class="switch">
+        <input id="PublicVideoRoom" type="checkbox">
+        <span class="slider round"></span>
+    </label>
+    <p>我创建的房间默认公开，其他人可以通过主页的公开房间列表进入我的房间</p>
+    <label class="switch">
+        <input id="DisableRedirectJoin" type="checkbox">
+        <span class="slider round"></span>
+    </label>
+    <p>加入房间时不要自动跳转，如果遇到一些视频链接无法正确跳转时，请开启这个选项。手动打开和房主相同的视频后再加入房间</p>
+    <label class="switch">
+        <input id="PasswordProtectedRoom" type="checkbox">
+        <span class="slider round"></span>
+    </label>
+    <p>我创建的房间必须要密码才能加入，注意：其他人同样可以用相同的密码挤掉房主，分享密码前请确认对方值得信赖</p>
+    <style>
+        /* The switch - the box around the slider */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        /* Hide default HTML checkbox */
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        /* The slider */
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked+.slider {
+            background-color: #2196F3;
+        }
+
+        input:focus+.slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked+.slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
+
+        .slider.round:before {
+            border-radius: 50%;
+        }
+    </style>
+    <script>
+        function checkBoxChanged(e) {
+            console.log(e.target.id);
+            document.querySelector("#storage").contentWindow.postMessage({
+                type: 12,
+                data: {
+                    key: e.target.id,
+                    value: e.target.checked
+                }
+            }, "*")
+        }
+        document.querySelector("#MinimiseDefault").addEventListener("change", checkBoxChanged);
+        document.querySelector("#PublicVideoRoom").addEventListener("change", checkBoxChanged);
+        document.querySelector("#DisableRedirectJoin").addEventListener("change", checkBoxChanged);
+        document.querySelector("#PasswordProtectedRoom").addEventListener("change", checkBoxChanged);
+    </script>
+</body>
+
+</html>

@@ -135,6 +135,7 @@
             console.log(e.target.id);
             document.querySelector("#storage").contentWindow.postMessage({
                 type: 12,
+                source: "VideoTogether",
                 data: {
                     key: e.target.id,
                     value: e.target.checked

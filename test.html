@@ -8,13 +8,12 @@
 <body>
     <script>
         window.addEventListener("message", e => {
-            if (e.data.type == 11 || e.data.type == 10) {
+            if (e.data.type == 15) {
                 console.log(e.data);
                 document.querySelector("#MinimiseDefault").checked = e.data.data.MinimiseDefault;
                 document.querySelector("#PublicVideoRoom").checked = e.data.data.PublicVideoRoom;
                 document.querySelector("#DisableRedirectJoin").checked = e.data.data.DisableRedirectJoin;
                 document.querySelector("#PasswordProtectedRoom").checked = e.data.data.PasswordProtectedRoom;
-
             }
         });
 

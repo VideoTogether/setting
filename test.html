@@ -118,6 +118,15 @@
                     value: e.target.checked
                 }
             }, "*")
+            window.postMessage(
+                {
+                    type: 15,
+                    source: "VideoTogether",
+                    data: {
+                        key: e.target.id,
+                        value: e.target.checked
+                    }
+                }, "*")
         }
         document.querySelector("#MinimiseDefault").addEventListener("change", checkBoxChanged);
         document.querySelector("#PublicVideoRoom").addEventListener("change", checkBoxChanged);

@@ -8,7 +8,7 @@
 <body>
     <script>
         window.addEventListener("message", e => {
-            if (e.data.type == 15) {
+            if (e.data.type == 16) {
                 console.log(e.data);
                 document.querySelector("#MinimiseDefault").checked = e.data.data.MinimiseDefault;
                 document.querySelector("#PublicVideoRoom").checked = e.data.data.PublicVideoRoom;

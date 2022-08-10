@@ -7,6 +7,20 @@
 
 <body>
     <script>
+        let languages = {
+            "zh-cn": {
+                "MinimiseDefaultLabel": "窗口默认最小化，可以通过点击右下角的小图标显示窗口",
+                "PublicVideoRoomLabel": "我创建的房间默认公开，其他人可以通过主页的公开房间列表进入我的房间",
+                "DisableRedirectJoinLabel": "加入房间时不要自动跳转，如果遇到一些视频链接无法正确跳转时，请开启这个选项。手动打开和房主相同的视频后再加入房间",
+                "PasswordProtectedRoomLabel": "我创建的房间必须要密码才能加入，注意：其他人同样可以用相同的密码挤掉房主，分享密码前请确认对方值得信赖"
+            },
+            "en-us": {
+                "MinimiseDefaultLabel": "Minimize window default, you can display the window by clicking the small icon in the lower right corner",
+                "PublicVideoRoomLabel": "The room I create is public by default, and others can enter my room through the public room list on 2gether.video",
+                "DisableRedirectJoinLabel": "Do not automatically jump when joining a room. If you encounter some video links that cannot be jumped correctly, please enable this option and manually open the same video as the host before joining the room",
+                "PasswordProtectedRoomLabel": "The room I created must have a password to join. Note: Others can also use the same password to become the owner. Please confirm that he/she is trustworthy before sharing the password."
+            }
+        }
         window.addEventListener("message", e => {
             if (e.data.type == 16) {
                 document.querySelector("#MinimiseDefault").checked = e.data.data.MinimiseDefault;
@@ -14,6 +28,13 @@
                 document.querySelector("#DisableRedirectJoin").checked = e.data.data.DisableRedirectJoin;
                 document.querySelector("#PasswordProtectedRoom").checked = e.data.data.PasswordProtectedRoom;
                 document.querySelector("#DisplayLanguage").value = e.data.data.DisplayLanguage;
+
+                if (typeof e.data.data.DisplayLanguage == "string") {
+                    let language = languages[e.data.data.DisplayLanguage];
+                    for (let key in language) {
+                        document.querySelector("#" + key).innerHTML = language[key];
+                    }
+                }
             }
         });
 
@@ -44,25 +65,25 @@
         <input id="MinimiseDefault" type="checkbox">
         <span class="slider round"></span>
     </label>
-    <p class="switch_label">窗口默认最小化，可以通过点击右下角的小图标显示窗口</p>
+    <p id="MinimiseDefaultLabel" class="switch_label">窗口默认最小化，可以通过点击右下角的小图标显示窗口</p>
     <hr>
     <label class="switch">
         <input id="PublicVideoRoom" type="checkbox">
         <span class="slider round"></span>
     </label>
-    <p class="switch_label">我创建的房间默认公开，其他人可以通过主页的公开房间列表进入我的房间</p>
+    <p id="PublicVideoRoomLabel" class="switch_label">我创建的房间默认公开，其他人可以通过主页的公开房间列表进入我的房间</p>
     <hr>
     <label class="switch">
         <input id="DisableRedirectJoin" type="checkbox">
         <span class="slider round"></span>
     </label>
-    <p class="switch_label">加入房间时不要自动跳转，如果遇到一些视频链接无法正确跳转时，请开启这个选项。手动打开和房主相同的视频后再加入房间</p>
+    <p id="DisableRedirectJoinLabel" class="switch_label">加入房间时不要自动跳转，如果遇到一些视频链接无法正确跳转时，请开启这个选项。手动打开和房主相同的视频后再加入房间</p>
     <hr>
     <label class="switch">
         <input id="PasswordProtectedRoom" type="checkbox">
         <span class="slider round"></span>
     </label>
-    <p class="switch_label">我创建的房间必须要密码才能加入，注意：其他人同样可以用相同的密码挤掉房主，分享密码前请确认对方值得信赖</p>
+    <p id="PasswordProtectedRoomLabel" class="switch_label">我创建的房间必须要密码才能加入，注意：其他人同样可以用相同的密码挤掉房主，分享密码前请确认对方值得信赖</p>
     <hr>
     <style>
         .switch_label {

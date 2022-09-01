@@ -6,13 +6,14 @@
 </head>
 
 <body>
-    <p style="color: red;">您现在访问的是旧版设置页，旧版设置页即将停用</p>
-    <p>请更新 VideoTogether 插件至最新版本以继续使用设置功能，请访问项目主页更新</p>
-    <a  href="https://2gether.video/guide/install.html">https://2gether.video/guide/install.html</a>
-
-    <p style="color: red;">注意：鲨鱼浏览器不支持设置功能</p>
-
     <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').then(function (registration) {
+                console.log('install success', registration.scope);
+            }).catch(function (err) {
+                console.log(err);
+            });
+        }
         window.addEventListener("message", e => {
             if (e.data.type == 11 || e.data.type == 10) {
                 console.log(e.data);
@@ -28,28 +29,38 @@
     <iframe style="display: none;" id="storage" src="https://storage.2gether.video/"></iframe>
 
     <!-- Rectangular switch -->
-    <p >注意：IOS 设置不生效，请在 设置-> Safari 浏览器 -> 关闭 阻止跨网站跟踪 功能</p>
+    <p>注意：IOS 设置不生效，请在 设置-> Safari 浏览器 -> 关闭 阻止跨网站跟踪 功能</p>
+
+    <hr>
     <label class="switch">
         <input id="MinimiseDefault" type="checkbox">
         <span class="slider round"></span>
     </label>
-    <p>窗口默认最小化，可以通过点击右下角的小图标显示窗口</p>
+    <p class="switch_label">窗口默认最小化，可以通过点击右下角的小图标显示窗口</p>
+    <hr>
     <label class="switch">
         <input id="PublicVideoRoom" type="checkbox">
         <span class="slider round"></span>
     </label>
-    <p>我创建的房间默认公开，其他人可以通过主页的公开房间列表进入我的房间</p>
+    <p class="switch_label">我创建的房间默认公开，其他人可以通过主页的公开房间列表进入我的房间</p>
+    <hr>
     <label class="switch">
         <input id="DisableRedirectJoin" type="checkbox">
         <span class="slider round"></span>
     </label>
-    <p>加入房间时不要自动跳转，如果遇到一些视频链接无法正确跳转时，请开启这个选项。手动打开和房主相同的视频后再加入房间</p>
+    <p class="switch_label">加入房间时不要自动跳转，如果遇到一些视频链接无法正确跳转时，请开启这个选项。手动打开和房主相同的视频后再加入房间</p>
+    <hr>
     <label class="switch">
         <input id="PasswordProtectedRoom" type="checkbox">
         <span class="slider round"></span>
     </label>
-    <p>我创建的房间必须要密码才能加入，注意：其他人同样可以用相同的密码挤掉房主，分享密码前请确认对方值得信赖</p>
+    <p class="switch_label">我创建的房间必须要密码才能加入，注意：其他人同样可以用相同的密码挤掉房主，分享密码前请确认对方值得信赖</p>
+    <hr>
     <style>
+        .switch_label {
+            display: inline-block;
+        }
+
         /* The switch - the box around the slider */
         .switch {
             position: relative;

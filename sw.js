@@ -7,7 +7,7 @@ var urlsToCache = [
     '/index.html'
 ];
 
-var CACHE_NAME = 'VideoTogetherSettingV2';
+var CACHE_NAME = 'VideoTogetherSettingV3';
 
 self.addEventListener('install', function (event) {
     self.skipWaiting();

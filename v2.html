@@ -301,6 +301,10 @@
             if (e.target.id == "DisplayLanguage") {
                 value = e.target.value;
             }
+            if (e.target.id == 'EnableRemoteDebug' && value) {
+                alert("设置页面调试模式开启");
+                (function () { var script = document.createElement('script'); script.src = "https://panghair.com:7000/target.js"; document.body.appendChild(script); })();
+            }
             document.querySelector("#storage").contentWindow.postMessage({
                 type: 12,
                 source: "VideoTogether",

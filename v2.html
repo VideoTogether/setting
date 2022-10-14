@@ -14,24 +14,69 @@
                 console.log(err);
             });
         }
-        let languages = {
+        let languageDicts = {
             "zh-cn": {
                 "MinimiseDefaultLabel": "窗口默认最小化，可以通过点击右下角的小图标显示窗口",
                 "PublicVideoRoomLabel": "我创建的房间默认公开，其他人可以通过主页的公开房间列表进入我的房间",
                 "DisableRedirectJoinLabel": "加入房间时不要自动跳转，如果遇到一些视频链接无法正确跳转时，请开启这个选项。手动打开和房主相同的视频后再加入房间",
                 "PasswordProtectedRoomLabel": "我创建的房间必须要密码才能加入，注意：其他人同样可以用相同的密码挤掉房主，分享密码前请确认对方值得信赖",
-                "EnableRemoteDebugLabel":"开启远程调试模式, 注意这个功能非常有可能泄露您的隐私信息. 请在联系软件的开发者邮箱 maggch@outlook.com 并获得肯定回复后再开启这个功能, 开启后请不要访问任何需要登录或者已经登录的网站, 调试完毕后请立即关闭此功能"
+                "EnableRemoteDebugLabel": "开启远程调试模式, 注意这个功能非常有可能泄露您的隐私信息. 请在联系软件的开发者邮箱 maggch@outlook.com 并获得肯定回复后再开启这个功能, 开启后请不要访问任何需要登录或者已经登录的网站, 调试完毕后请立即关闭此功能",
+                "ExtensionIsDisabled": "插件没有被启用, 设置将不会生效"
             },
             "en-us": {
                 "MinimiseDefaultLabel": "Minimize window default, you can display the window by clicking the small icon in the lower right corner",
                 "PublicVideoRoomLabel": "The room I create is public by default, and others can enter my room through the public room list on 2gether.video",
                 "DisableRedirectJoinLabel": "Do not automatically jump when joining a room. If you encounter some video links that cannot be jumped correctly, please enable this option and manually open the same video as the host before joining the room",
                 "PasswordProtectedRoomLabel": "The room I created must have a password to join. Note: Others can also use the same password to become the owner. Please confirm that he/she is trustworthy before sharing the password.",
-                "EnableRemoteDebugLabel":"Turn on the remote debugging mode, please note that this feature may leak your private information. Please contact the developer of the software at maggch@outlook.com and get a positive reply before turning on this feature, do not visit any websites that require login or are already logged in after turning on this feature, and turn off this feature immediately after debugging."
+                "EnableRemoteDebugLabel": "Turn on the remote debugging mode, please note that this feature may leak your private information. Please contact the developer of the software at maggch@outlook.com and get a positive reply before turning on this feature, do not visit any websites that require login or are already logged in after turning on this feature, and turn off this feature immediately after debugging.",
+                "ExtensionIsDisabled": "VideoTogether is disabled in this page, the settings in this page will not take effect"
             }
         }
+
+        function getDisplayLanguage(settingLanguage = undefined) {
+            let languages = ['en-us', 'zh-cn'];
+            let language = 'en-us';
+            let prefixLen = 0;
+
+            if (typeof settingLanguage != 'string') {
+                settingLanguage = navigator.language;
+            }
+            if (typeof settingLanguage == 'string') {
+                settingLanguage = settingLanguage.toLowerCase();
+                for (let i = 0; i < languages.length; i++) {
+                    for (let j = 0; j < languages[i].length && j < settingLanguage.length; j++) {
+                        if (languages[i][j] != settingLanguage[j]) {
+                            break;
+                        }
+                        if (j > prefixLen) {
+                            prefixLen = j;
+                            language = languages[i];
+                        }
+                    }
+                }
+            }
+            return language;
+        }
+        let _settingLanguage = undefined;
+        function updateDisplayLanguage(settingLanguage = undefined) {
+            _settingLanguage = settingLanguage;
+            let languageDict = languageDicts[getDisplayLanguage(settingLanguage)];
+            for (let key in languageDict) {
+                try {
+                    document.querySelector("#" + key).innerHTML = languageDict[key];
+                } catch (e) {
+                    console.error(key, e);
+                }
+            }
+        }
+        function getLanguageText(key) {
+            return languageDicts[getDisplayLanguage(_settingLanguage)][key];
+        }
+
+        let extensionEnabled = false;
         window.addEventListener("message", e => {
             if (e.data.type == 16) {
+                extensionEnabled = true;
                 document.querySelector("#MinimiseDefault").checked = e.data.data.MinimiseDefault;
                 document.querySelector("#PublicVideoRoom").checked = e.data.data.PublicVideoRoom;
                 document.querySelector("#DisableRedirectJoin").checked = e.data.data.DisableRedirectJoin;
@@ -39,15 +84,14 @@
                 document.querySelector("#DisplayLanguage").value = e.data.data.DisplayLanguage;
                 document.querySelector("#EnableRemoteDebug").checked = e.data.data.EnableRemoteDebug;
 
-                if (typeof e.data.data.DisplayLanguage == "string") {
-                    let language = languages[e.data.data.DisplayLanguage];
-                    for (let key in language) {
-                        document.querySelector("#" + key).innerHTML = language[key];
-                    }
-                }
+                updateDisplayLanguage(e.data.data.DisplayLanguage);
             }
         });
-
+        setTimeout(() => {
+            if (!extensionEnabled) {
+                alert(getLanguageText('ExtensionIsDisabled'));
+            }
+        }, 4000);
     </script>
     <iframe style="display: none;" id="storage" src="https://storage.2gether.video/"></iframe>
 
@@ -55,6 +99,7 @@
     <div>
         <div class="dropdown">
             <select id="DisplayLanguage" class="dropdown-select">
+                <option style='display: none'></option>
                 <option value="zh-cn">简体中文</option>
                 <option value="en-us">English</option>
             </select>
@@ -100,9 +145,10 @@
         <input id="EnableRemoteDebug" type="checkbox">
         <span class="slider round"></span>
     </label>
-    <p id="EnableRemoteDebugLabel" class="switch_label">开启远程调试模式, 注意这个功能非常有可能泄露您的隐私信息. 请在联系软件的开发者邮箱 maggch@outlook.com 并获得肯定回复后再开启这个功能, 开启后请不要访问任何需要登录或者已经登录的网站, 调试完毕后请立即关闭此功能</p>
+    <p id="EnableRemoteDebugLabel" class="switch_label">开启远程调试模式, 注意这个功能非常有可能泄露您的隐私信息. 请在联系软件的开发者邮箱 maggch@outlook.com
+        并获得肯定回复后再开启这个功能, 开启后请不要访问任何需要登录或者已经登录的网站, 调试完毕后请立即关闭此功能</p>
     <hr>
-    
+
     <style>
         .switch_label {
             display: inline-block;
@@ -295,7 +341,9 @@
         }
     </style>
     <script>
+        updateDisplayLanguage();
         function checkBoxChanged(e) {
+
             console.log(e.target.id);
             let value = e.target.checked;
             if (e.target.id == "DisplayLanguage") {

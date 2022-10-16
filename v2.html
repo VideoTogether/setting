@@ -21,7 +21,8 @@
                 "DisableRedirectJoinLabel": "加入房间时不要自动跳转，如果遇到一些视频链接无法正确跳转时，请开启这个选项。手动打开和房主相同的视频后再加入房间",
                 "PasswordProtectedRoomLabel": "我创建的房间必须要密码才能加入，注意：其他人同样可以用相同的密码挤掉房主，分享密码前请确认对方值得信赖",
                 "EnableRemoteDebugLabel": "开启远程调试模式, 注意这个功能非常有可能泄露您的隐私信息. 请在联系软件的开发者邮箱 maggch@outlook.com 并获得肯定回复后再开启这个功能, 开启后请不要访问任何需要登录或者已经登录的网站, 调试完毕后请立即关闭此功能",
-                "ExtensionIsDisabled": "插件没有被启用, 设置将不会生效"
+                "ExtensionIsDisabled": "插件没有被启用, 设置将不会生效",
+                "EchoCancellationLabel":"通话时开启回声消除和噪声消除. 在 Mac 电脑上只有 Safari 浏览器支持这个功能"
             },
             "en-us": {
                 "MinimiseDefaultLabel": "Minimize window default, you can display the window by clicking the small icon in the lower right corner",
@@ -29,7 +30,8 @@
                 "DisableRedirectJoinLabel": "Do not automatically jump when joining a room. If you encounter some video links that cannot be jumped correctly, please enable this option and manually open the same video as the host before joining the room",
                 "PasswordProtectedRoomLabel": "The room I created must have a password to join. Note: Others can also use the same password to become the owner. Please confirm that he/she is trustworthy before sharing the password.",
                 "EnableRemoteDebugLabel": "Turn on the remote debugging mode, please note that this feature may leak your private information. Please contact the developer of the software at maggch@outlook.com and get a positive reply before turning on this feature, do not visit any websites that require login or are already logged in after turning on this feature, and turn off this feature immediately after debugging.",
-                "ExtensionIsDisabled": "VideoTogether is disabled in this page, the settings in this page will not take effect"
+                "ExtensionIsDisabled": "VideoTogether is disabled in this page, the settings in this page will not take effect",
+                "EchoCancellationLabel":"Enable echo cancellation and noise cancellation when call. On Mac only the Safari browser supports this feature"
             }
         }
 
@@ -81,6 +83,7 @@
                 document.querySelector("#PublicVideoRoom").checked = e.data.data.PublicVideoRoom;
                 document.querySelector("#DisableRedirectJoin").checked = e.data.data.DisableRedirectJoin;
                 document.querySelector("#PasswordProtectedRoom").checked = e.data.data.PasswordProtectedRoom;
+                document.querySelector("#EchoCancellation").checked = !(e.data.data.EchoCancellation === false);
                 document.querySelector("#DisplayLanguage").value = e.data.data.DisplayLanguage;
                 document.querySelector("#EnableRemoteDebug").checked = e.data.data.EnableRemoteDebug;
 
@@ -139,6 +142,13 @@
         <span class="slider round"></span>
     </label>
     <p id="PasswordProtectedRoomLabel" class="switch_label">我创建的房间必须要密码才能加入，注意：其他人同样可以用相同的密码挤掉房主，分享密码前请确认对方值得信赖</p>
+    <hr>
+
+    <label class="switch">
+        <input id="EchoCancellation" type="checkbox">
+        <span class="slider round"></span>
+    </label>
+    <p id="EchoCancellationLabel" class="switch_label">通话时开启回声消除和噪声消除. 在 Mac 电脑上只有 Safari 浏览器支持这个功能</p>
     <hr>
 
     <label class="switch">
@@ -376,6 +386,7 @@
         document.querySelector("#PublicVideoRoom").addEventListener("change", checkBoxChanged);
         document.querySelector("#DisableRedirectJoin").addEventListener("change", checkBoxChanged);
         document.querySelector("#PasswordProtectedRoom").addEventListener("change", checkBoxChanged);
+        document.querySelector("#EchoCancellation").addEventListener("change", checkBoxChanged);
         document.querySelector("#DisplayLanguage").addEventListener("change", checkBoxChanged);
         document.querySelector("#EnableRemoteDebug").addEventListener("change", checkBoxChanged);
     </script>

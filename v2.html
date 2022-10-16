@@ -80,7 +80,7 @@
             if (e.data.type == 16) {
                 extensionEnabled = true;
                 document.querySelector("#MinimiseDefault").checked = e.data.data.MinimiseDefault;
-                document.querySelector("#PublicVideoRoom").checked = e.data.data.PublicVideoRoom;
+                // document.querySelector("#PublicVideoRoom").checked = e.data.data.PublicVideoRoom;
                 document.querySelector("#DisableRedirectJoin").checked = e.data.data.DisableRedirectJoin;
                 document.querySelector("#PasswordProtectedRoom").checked = e.data.data.PasswordProtectedRoom;
                 document.querySelector("#EchoCancellation").checked = !(e.data.data.EchoCancellation === false);
@@ -125,12 +125,21 @@
     </label>
     <p id="MinimiseDefaultLabel" class="switch_label">窗口默认最小化，可以通过点击右下角的小图标显示窗口</p>
     <hr>
+
     <label class="switch">
+        <input id="EchoCancellation" type="checkbox">
+        <span class="slider round"></span>
+    </label>
+    <p id="EchoCancellationLabel" class="switch_label">通话时开启回声消除和噪声消除. 在 Mac 电脑上只有 Safari 浏览器支持这个功能</p>
+    <hr>
+
+    
+    <!-- <label class="switch">
         <input id="PublicVideoRoom" type="checkbox">
         <span class="slider round"></span>
     </label>
     <p id="PublicVideoRoomLabel" class="switch_label">我创建的房间默认公开，其他人可以通过主页的公开房间列表进入我的房间</p>
-    <hr>
+    <hr> -->
     <label class="switch">
         <input id="DisableRedirectJoin" type="checkbox">
         <span class="slider round"></span>
@@ -142,13 +151,6 @@
         <span class="slider round"></span>
     </label>
     <p id="PasswordProtectedRoomLabel" class="switch_label">我创建的房间必须要密码才能加入，注意：其他人同样可以用相同的密码挤掉房主，分享密码前请确认对方值得信赖</p>
-    <hr>
-
-    <label class="switch">
-        <input id="EchoCancellation" type="checkbox">
-        <span class="slider round"></span>
-    </label>
-    <p id="EchoCancellationLabel" class="switch_label">通话时开启回声消除和噪声消除. 在 Mac 电脑上只有 Safari 浏览器支持这个功能</p>
     <hr>
 
     <label class="switch">
@@ -383,7 +385,7 @@
         }
 
         document.querySelector("#MinimiseDefault").addEventListener("change", checkBoxChanged);
-        document.querySelector("#PublicVideoRoom").addEventListener("change", checkBoxChanged);
+        // document.querySelector("#PublicVideoRoom").addEventListener("change", checkBoxChanged);
         document.querySelector("#DisableRedirectJoin").addEventListener("change", checkBoxChanged);
         document.querySelector("#PasswordProtectedRoom").addEventListener("change", checkBoxChanged);
         document.querySelector("#EchoCancellation").addEventListener("change", checkBoxChanged);

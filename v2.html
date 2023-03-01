@@ -82,7 +82,7 @@
                 document.querySelector("#MinimiseDefault").checked = e.data.data.MinimiseDefault;
                 // document.querySelector("#PublicVideoRoom").checked = e.data.data.PublicVideoRoom;
                 document.querySelector("#DisableRedirectJoin").checked = e.data.data.DisableRedirectJoin;
-                document.querySelector("#PasswordProtectedRoom").checked = e.data.data.PasswordProtectedRoom;
+                document.querySelector("#PasswordProtectedRoom").checked = (e.data.data.PasswordProtectedRoom != false);
                 document.querySelector("#EchoCancellation").checked = !(e.data.data.EchoCancellation === false);
                 document.querySelector("#DisplayLanguage").value = e.data.data.DisplayLanguage;
                 document.querySelector("#EnableRemoteDebug").checked = e.data.data.EnableRemoteDebug;

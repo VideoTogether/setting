@@ -15,7 +15,11 @@
           {
             "key": "Cache-Control",
             "value": "public, s-maxage=86400, max-age=86400"
-          }
+          },
+            {
+              "key": "Age",
+              "value": "0"
+            }
         ]
       }
     ]

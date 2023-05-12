@@ -128,9 +128,9 @@
                         document.querySelector("#WaitForLoadding").checked = (e.data.data.WaitForLoadding != false);
                         document.querySelector("#EchoCancellation").checked = !(e.data.data.EchoCancellation === false);
                         document.querySelector("#DisplayLanguage").value = e.data.data.DisplayLanguage;
-                        try{
+                        try {
                             DisplayLanguageSelect.handleUpdate()
-                        }catch{}
+                        } catch { }
                         document.querySelector("#EnableRemoteDebug").checked = e.data.data.EnableRemoteDebug;
 
                         updateDisplayLanguage(e.data.data.DisplayLanguage);
@@ -221,7 +221,12 @@
                 </div>
 
                 <script>
-                    const DisplayLanguageSelect = new mdui.Select(document.querySelector('#DisplayLanguage'))
+                    var DisplayLanguageSelect = undefined;
+                    setInterval(() => {
+                        if (DisplayLanguageSelect == undefined) {
+                            DisplayLanguageSelect = new mdui.Select(document.querySelector('#DisplayLanguage'))
+                        }
+                    }, 500);
                     updateDisplayLanguage();
                     function checkBoxChanged(e) {
 

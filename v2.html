@@ -125,12 +125,17 @@
                         document.querySelector("#PasswordProtectedRoom").checked = (e.data.data.PasswordProtectedRoom != false);
                         document.querySelector("#WaitForLoadding").checked = (e.data.data.WaitForLoadding != false);
                         document.querySelector("#EchoCancellation").checked = !(e.data.data.EchoCancellation === false);
+                        let isDisplayLanguageUpdated = false;
                         try {
-                            if (document.querySelector("#DisplayLanguage").value != e.data.data.DisplayLanguage) {
-                                DisplayLanguageSelect.handleUpdate();
+                            let newValue = e.data.data.DisplayLanguage ? e.data.data.DisplayLanguage : "";
+                            if (newValue != document.querySelector("#DisplayLanguage").value) {
+                                isDisplayLanguageUpdated = true;
                             }
-                        } catch { }
+                        } catch { };
                         document.querySelector("#DisplayLanguage").value = e.data.data.DisplayLanguage;
+                        try {
+                            DisplayLanguageSelect.handleUpdate();
+                        } catch { }
                         document.querySelector("#EnableRemoteDebug").checked = e.data.data.EnableRemoteDebug;
 
                         updateDisplayLanguage(e.data.data.DisplayLanguage);

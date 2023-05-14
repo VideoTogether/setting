@@ -134,7 +134,9 @@
                         } catch { };
                         document.querySelector("#DisplayLanguage").value = e.data.data.DisplayLanguage;
                         try {
-                            DisplayLanguageSelect.handleUpdate();
+                            if (isDisplayLanguageUpdated) {
+                                DisplayLanguageSelect.handleUpdate();
+                            }
                         } catch { }
                         document.querySelector("#EnableRemoteDebug").checked = e.data.data.EnableRemoteDebug;
 

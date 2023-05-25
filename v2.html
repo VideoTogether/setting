@@ -63,7 +63,8 @@
                                 "SkipIntroLabel": "跳过片头",
                                 "SkipIntroLengthLabel": "片头长度:",
                                 "SkipIntroSecondLabel": "秒",
-                                "ExperimentalFeature":"实验性功能"
+                                "ExperimentalFeature":"实验性功能",
+                                "EasyShareLabel":"轻松分享"
                             },
                             "en-us": {
                                 "Setting": "VideoTogether Settings",
@@ -85,7 +86,8 @@
                                 "SkipIntroLabel": "Skip Intro",
                                 "SkipIntroLengthLabel": "Intro Length:",
                                 "SkipIntroSecondLabel": "Seconds",
-                                "ExperimentalFeature":"Experimental Feature"
+                                "ExperimentalFeature":"Experimental Feature",
+                                "EasyShareLabel":"Easy Share"
                             }
                         }
 
@@ -151,9 +153,11 @@
                                         DisplayLanguageSelect.handleUpdate();
                                     }
                                 } catch { }
+                                
                                 document.querySelector("#EnableRemoteDebug").checked = e.data.data.EnableRemoteDebug;
                                 document.querySelector("#SkipIntroLength").value = emptyStrIfUdf(e.data.data.SkipIntroLength);
                                 document.querySelector("#SkipIntro").checked = e.data.data.SkipIntro;
+                                document.querySelector("#EasyShare").checked = e.data.data.EasyShare;
                                 updateDisplayLanguage(e.data.data.DisplayLanguage);
                             }
                         });
@@ -262,15 +266,15 @@
                                 <span class="mdui-switch-icon"></span>
                             </label>
                         </div>
-                        <!-- <div class="mdui-clearfix mdui-p-t-2">
-                            <a id="PasswordProtectedRoomLabel">轻松分享</a>
-                            <i class="mdui-icon material-icons mdui-ripple"
-                                onclick="mdui.snackbar({message: getLanguageText('PasswordProtectedRoomLabelHelp')})">help_outline</i>
+                        <div class="mdui-clearfix mdui-p-t-2">
+                            <a id="EasyShareLabel"></a>
+                            <!-- <i class="mdui-icon material-icons mdui-ripple"
+                                onclick="mdui.snackbar({message: getLanguageText('PasswordProtectedRoomLabelHelp')})">help_outline</i> -->
                             <label class="mdui-switch mdui-float-right">
-                                <input id="PasswordProtectedRoom" type="checkbox">
+                                <input id="EasyShare" type="checkbox">
                                 <span class="mdui-switch-icon"></span>
                             </label>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -316,6 +320,7 @@
         document.querySelector("#EnableRemoteDebug").addEventListener("change", checkBoxChanged);
         document.querySelector("#WaitForLoadding").addEventListener("change", checkBoxChanged);
         document.querySelector("#SkipIntro").addEventListener("change", checkBoxChanged);
+        document.querySelector("#EasyShare").addEventListener("change", checkBoxChanged);
         document.querySelector("#SkipIntroLength").addEventListener("input", checkBoxChanged);
         // Dark Mode
         var body = document.querySelector("body");

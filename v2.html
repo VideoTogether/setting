@@ -64,7 +64,8 @@
                                 "SkipIntroLengthLabel": "片头长度:",
                                 "SkipIntroSecondLabel": "秒",
                                 "ExperimentalFeature":"实验性功能",
-                                "EasyShareLabel":"轻松分享"
+                                "EasyShareLabel":"轻松分享",
+                                "SuperEasyShareLabel":"超级无敌牛的轻松分享(可能会影响视频播放)"
                             },
                             "en-us": {
                                 "Setting": "VideoTogether Settings",
@@ -87,7 +88,8 @@
                                 "SkipIntroLengthLabel": "Intro Length:",
                                 "SkipIntroSecondLabel": "Seconds",
                                 "ExperimentalFeature":"Experimental Feature",
-                                "EasyShareLabel":"Easy Share"
+                                "EasyShareLabel":"Easy Share",
+                                "SuperEasyShareLabel":"Super Powerful Easy Share(may cause video playback issues)"
                             }
                         }
 
@@ -158,6 +160,7 @@
                                 document.querySelector("#SkipIntroLength").value = emptyStrIfUdf(e.data.data.SkipIntroLength);
                                 document.querySelector("#SkipIntro").checked = e.data.data.SkipIntro;
                                 document.querySelector("#EasyShare").checked = e.data.data.EasyShare;
+                                document.querySelector("#SuperEasyShare").checked = e.data.data.SuperEasyShare;
                                 updateDisplayLanguage(e.data.data.DisplayLanguage);
                             }
                         });
@@ -275,6 +278,15 @@
                                 <span class="mdui-switch-icon"></span>
                             </label>
                         </div>
+                        <div class="mdui-clearfix mdui-p-t-2">
+                            <a id="SuperEasyShareLabel"></a>
+                            <!-- <i class="mdui-icon material-icons mdui-ripple"
+                                onclick="mdui.snackbar({message: getLanguageText('PasswordProtectedRoomLabelHelp')})">help_outline</i> -->
+                            <label class="mdui-switch mdui-float-right">
+                                <input id="SuperEasyShare" type="checkbox">
+                                <span class="mdui-switch-icon"></span>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -321,6 +333,7 @@
         document.querySelector("#WaitForLoadding").addEventListener("change", checkBoxChanged);
         document.querySelector("#SkipIntro").addEventListener("change", checkBoxChanged);
         document.querySelector("#EasyShare").addEventListener("change", checkBoxChanged);
+        document.querySelector("#SuperEasyShare").addEventListener("change", checkBoxChanged);
         document.querySelector("#SkipIntroLength").addEventListener("input", checkBoxChanged);
         // Dark Mode
         var body = document.querySelector("body");

@@ -159,7 +159,7 @@
                                 document.querySelector("#EnableRemoteDebug").checked = e.data.data.EnableRemoteDebug;
                                 document.querySelector("#SkipIntroLength").value = emptyStrIfUdf(e.data.data.SkipIntroLength);
                                 document.querySelector("#SkipIntro").checked = e.data.data.SkipIntro;
-                                document.querySelector("#EasyShare").checked = e.data.data.EasyShare;
+                                document.querySelector("#EasyShare").checked = (e.data.data.EasyShare!=false);
                                 document.querySelector("#SuperEasyShare").checked = e.data.data.SuperEasyShare;
                                 updateDisplayLanguage(e.data.data.DisplayLanguage);
                             }

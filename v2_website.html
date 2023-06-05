@@ -166,9 +166,10 @@
                 </div>
 
                 <div class="mdui-clearfix mdui-p-t-2">
-                    <a id="MinimiseDefaultLabel"></a>
-                    <i class="mdui-icon material-icons mdui-ripple"
-                        onclick="mdui.snackbar({message: getLanguageText('MinimiseDefaultLabelHelp')})">help_outline</i>
+                    <span onclick="mdui.snackbar({message: getLanguageText('MinimiseDefaultLabelHelp')})">
+                        <a id="MinimiseDefaultLabel"></a>
+                        <i class="mdui-icon material-icons mdui-ripple">help_outline</i>
+                    </span>
                     <label class="mdui-switch mdui-float-right">
                         <input id="MinimiseDefault" type="checkbox">
                         <span class="mdui-switch-icon"></span>
@@ -192,9 +193,10 @@
                 </div> -->
 
                 <div class="mdui-clearfix mdui-p-t-2">
-                    <a id="DisableRedirectJoinLabel"></a>
-                    <i class="mdui-icon material-icons mdui-ripple"
-                        onclick="mdui.snackbar({message: getLanguageText('DisableRedirectJoinLabelHelp')})">help_outline</i>
+                    <span onclick="mdui.snackbar({message: getLanguageText('DisableRedirectJoinLabelHelp')})">
+                        <a id="DisableRedirectJoinLabel"></a>
+                        <i class="mdui-icon material-icons mdui-ripple">help_outline</i>
+                    </span>
                     <label class="mdui-switch mdui-float-right">
                         <input id="DisableRedirectJoin" type="checkbox">
                         <span class="mdui-switch-icon"></span>
@@ -202,9 +204,10 @@
                 </div>
 
                 <div class="mdui-clearfix mdui-p-t-2">
-                    <a id="PasswordProtectedRoomLabel"></a>
-                    <i class="mdui-icon material-icons mdui-ripple"
-                        onclick="mdui.snackbar({message: getLanguageText('PasswordProtectedRoomLabelHelp')})">help_outline</i>
+                    <span onclick="mdui.snackbar({message: getLanguageText('PasswordProtectedRoomLabelHelp')})">
+                        <a id="PasswordProtectedRoomLabel"></a>
+                        <i class="mdui-icon material-icons mdui-ripple">help_outline</i>
+                    </span>
                     <label class="mdui-switch mdui-float-right">
                         <input id="PasswordProtectedRoom" type="checkbox">
                         <span class="mdui-switch-icon"></span>
@@ -220,9 +223,10 @@
                 </div>
 
                 <div class="mdui-clearfix mdui-p-t-2">
-                    <a id="EnableRemoteDebugLabel"></a>
-                    <i class="mdui-icon material-icons mdui-ripple"
-                        onclick="mdui.snackbar({message: getLanguageText('EnableRemoteDebugLabelHelp')})">help_outline</i>
+                    <span onclick="mdui.snackbar({message: getLanguageText('EnableRemoteDebugLabelHelp')})">
+                        <a id="EnableRemoteDebugLabel"></a>
+                        <i class="mdui-icon material-icons mdui-ripple">help_outline</i>
+                    </span>
                     <label class="mdui-switch mdui-float-right">
                         <input id="EnableRemoteDebug" type="checkbox">
                         <span class="mdui-switch-icon"></span>
@@ -293,10 +297,15 @@
         .mdui-card {
             border-radius: 12px;
             box-shadow: 0 2px 2px 0 rgb(0 0 0 / 16%), 0 1px 5px 0 rgb(0 0 0 / 16%);
-            max-width: 500px;
+            max-width: 600px;
+            margin: auto;
         }
 
-        .mdui-menu-open {
+        .mdui-menu {
+            border-radius: 12px;
+        }
+
+        .mdui-snackbar {
             border-radius: 12px;
         }
 

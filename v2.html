@@ -65,7 +65,8 @@
                                 "SkipIntroSecondLabel": "秒",
                                 "ExperimentalFeature": "实验性功能",
                                 "EasyShareLabel": "轻松分享",
-                                "SuperEasyShareLabel": "超级无敌牛的轻松分享(可能会影响视频播放)"
+                                "SuperEasyShareLabel": "超级无敌牛的轻松分享(可能会影响视频播放)",
+                                "DisableNativeM3u8PlayerLabel": "关闭原生M3U8播放器"
                             },
                             "en-us": {
                                 "Setting": "VideoTogether Settings",
@@ -89,7 +90,8 @@
                                 "SkipIntroSecondLabel": "Seconds",
                                 "ExperimentalFeature": "Experimental Feature",
                                 "EasyShareLabel": "Easy Share",
-                                "SuperEasyShareLabel": "Super Powerful Easy Share(may cause video playback issues)"
+                                "SuperEasyShareLabel": "Super Powerful Easy Share(may cause video playback issues)",
+                                "DisableNativeM3u8PlayerLabel": "Disable native M3U8 player"
                             }
                         }
 
@@ -161,6 +163,7 @@
                                 document.querySelector("#SkipIntro").checked = e.data.data.SkipIntro;
                                 document.querySelector("#EasyShare").checked = (e.data.data.EasyShare != false);
                                 document.querySelector("#SuperEasyShare").checked = e.data.data.SuperEasyShare;
+                                document.querySelector("#DisableNativeM3u8Player").checked = (e.data.data.DisableNativeM3u8Player != false);
                                 updateDisplayLanguage(e.data.data.DisplayLanguage);
                             }
                         });
@@ -293,6 +296,15 @@
                                 <span class="mdui-switch-icon"></span>
                             </label>
                         </div>
+                        <div class="mdui-clearfix mdui-p-t-2">
+                            <a id="DisableNativeM3u8PlayerLabel"></a>
+                            <!-- <i class="mdui-icon material-icons mdui-ripple"
+                                onclick="mdui.snackbar({message: getLanguageText('PasswordProtectedRoomLabelHelp')})">help_outline</i> -->
+                            <label class="mdui-switch mdui-float-right">
+                                <input id="DisableNativeM3u8Player" type="checkbox">
+                                <span class="mdui-switch-icon"></span>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -340,6 +352,7 @@
         document.querySelector("#SkipIntro").addEventListener("change", checkBoxChanged);
         document.querySelector("#EasyShare").addEventListener("change", checkBoxChanged);
         document.querySelector("#SuperEasyShare").addEventListener("change", checkBoxChanged);
+        document.querySelector("#DisableNativeM3u8Player").addEventListener("change", checkBoxChanged);
         document.querySelector("#SkipIntroLength").addEventListener("input", checkBoxChanged);
         // Dark Mode
         var body = document.querySelector("body");

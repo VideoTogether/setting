@@ -182,7 +182,7 @@
                                 document.querySelector("#DisableNativeM3u8Player").checked = (e.data.data.DisableNativeM3u8Player != false);
                                 for (let i in settingItems) {
                                     let item = settingItems[i]
-                                    document.querySelector(`#${item.key}`).checked = e.data.data.EasyShare == undefined ? item.defaultVal : e.data.data[item.key];
+                                    document.querySelector(`#${item.key}`).checked = e.data.data[item.key] == undefined ? item.defaultVal : e.data.data[item.key];
                                 }
                                 updateDisplayLanguage(e.data.data.DisplayLanguage);
                             }

@@ -45,11 +45,11 @@
 
                         let settingItems = [
                             {
-                                key:"EnableMiniBar",
+                                key: "EnableMiniBar",
                                 defaultVal: true
                             },
                             {
-                                key:"EnableTextMessage",
+                                key: "EnableTextMessage",
                                 defaultVal: true
                             }
                         ]
@@ -79,8 +79,8 @@
                                 "EasyShareLabel": "轻松分享",
                                 "SuperEasyShareLabel": "超级无敌牛的轻松分享(可能会影响视频播放)",
                                 "DisableNativeM3u8PlayerLabel": "关闭原生M3U8播放器",
-                                "EnableTextMessageLabel":"文本聊天",
-                                "EnableMiniBarLabel":"全屏视频时的迷你小窗"
+                                "EnableTextMessageLabel": "文本聊天",
+                                "EnableMiniBarLabel": "全屏视频时的迷你小窗"
                             },
                             "en-us": {
                                 "Setting": "VideoTogether Settings",
@@ -106,8 +106,8 @@
                                 "EasyShareLabel": "Easy Share",
                                 "SuperEasyShareLabel": "Super Powerful Easy Share(may cause video playback issues)",
                                 "DisableNativeM3u8PlayerLabel": "Disable native M3U8 player",
-                                "EnableTextMessageLabel":"Text Message",
-                                "EnableMiniBarLabel":"Mini Bar at fullscreen video"
+                                "EnableTextMessageLabel": "Text Message",
+                                "EnableMiniBarLabel": "Mini Bar at fullscreen video"
                             }
                         }
 
@@ -180,8 +180,9 @@
                                 document.querySelector("#EasyShare").checked = (e.data.data.EasyShare != false);
                                 document.querySelector("#SuperEasyShare").checked = e.data.data.SuperEasyShare;
                                 document.querySelector("#DisableNativeM3u8Player").checked = (e.data.data.DisableNativeM3u8Player != false);
-                                for(let i in settingItems){
-                                    document.querySelector(`#${i.key}`).checked = e.data.data.EasyShare == undefined?i.defaultVal:e.data.data[i.key];
+                                for (let i in settingItems) {
+                                    let item = settingItems[i]
+                                    document.querySelector(`#${item.key}`).checked = e.data.data.EasyShare == undefined ? item.defaultVal : e.data.data[item.key];
                                 }
                                 updateDisplayLanguage(e.data.data.DisplayLanguage);
                             }
@@ -381,9 +382,10 @@
         document.querySelector("#SuperEasyShare").addEventListener("change", checkBoxChanged);
         document.querySelector("#DisableNativeM3u8Player").addEventListener("change", checkBoxChanged);
         document.querySelector("#SkipIntroLength").addEventListener("input", checkBoxChanged);
-        for(let i in settingItems){
-                                    document.querySelector(`#${i.key}`).addEventListener("change", checkBoxChanged);
-                                 }
+        for (let i in settingItems) {
+            let item = settingItems[i]
+            document.querySelector(`#${item.key}`).addEventListener("change", checkBoxChanged);
+        }
         // Dark Mode
         var body = document.querySelector("body");
         var button = document.getElementById("brightness");

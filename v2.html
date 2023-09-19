@@ -80,7 +80,9 @@
                                 "SuperEasyShareLabel": "超级无敌牛的轻松分享(可能会影响视频播放)",
                                 "DisableNativeM3u8PlayerLabel": "关闭原生M3U8播放器",
                                 "EnableTextMessageLabel": "文本聊天",
-                                "EnableMiniBarLabel": "全屏视频时的迷你小窗"
+                                "EnableMiniBarLabel": "全屏视频时的迷你小窗",
+                                "CheckUpdateLabel": "检查更新",
+                                "CheckUpdateSucc": "更新成功",
                             },
                             "en-us": {
                                 "Setting": "VideoTogether Settings",
@@ -107,7 +109,9 @@
                                 "SuperEasyShareLabel": "Super Powerful Easy Share(may cause video playback issues)",
                                 "DisableNativeM3u8PlayerLabel": "Disable native M3U8 player",
                                 "EnableTextMessageLabel": "Text Message",
-                                "EnableMiniBarLabel": "Mini Bar at fullscreen video"
+                                "EnableMiniBarLabel": "Mini Bar at fullscreen video",
+                                "CheckUpdateLabel": "Check Update",
+                                "CheckUpdateSucc": "Update Successfully",
                             }
                         }
 
@@ -174,7 +178,7 @@
                                     }
                                 } catch { }
 
-                                document.querySelector("#EnableRemoteDebug").checked = e.data.data.EnableRemoteDebug;
+                                // document.querySelector("#EnableRemoteDebug").checked = e.data.data.EnableRemoteDebug;
                                 document.querySelector("#SkipIntroLength").value = emptyStrIfUdf(e.data.data.SkipIntroLength);
                                 document.querySelector("#SkipIntro").checked = e.data.data.SkipIntro;
                                 document.querySelector("#EasyShare").checked = (e.data.data.EasyShare != false);
@@ -264,7 +268,7 @@
                             </label>
                         </div>
 
-                        <div class="mdui-clearfix mdui-p-t-2">
+                        <!-- <div class="mdui-clearfix mdui-p-t-2">
                             <span onclick="mdui.snackbar({message: getLanguageText('EnableRemoteDebugLabelHelp')})">
                                 <a id="EnableRemoteDebugLabel"></a>
                                 <i class="mdui-icon material-icons mdui-ripple">help_outline</i>
@@ -273,6 +277,9 @@
                                 <input id="EnableRemoteDebug" type="checkbox">
                                 <span class="mdui-switch-icon"></span>
                             </label>
+                        </div> -->
+                        <div class="mdui-clearfix mdui-p-t-2">
+                            <button class="mdui-btn" onclick="checkUpdate()" id="CheckUpdateLabel"></button>
                         </div>
                     </div>
                 </div>
@@ -375,7 +382,7 @@
         document.querySelector("#PasswordProtectedRoom").addEventListener("change", checkBoxChanged);
         document.querySelector("#EchoCancellation").addEventListener("change", checkBoxChanged);
         document.querySelector("#DisplayLanguage").addEventListener("change", checkBoxChanged);
-        document.querySelector("#EnableRemoteDebug").addEventListener("change", checkBoxChanged);
+        // document.querySelector("#EnableRemoteDebug").addEventListener("change", checkBoxChanged);
         document.querySelector("#WaitForLoadding").addEventListener("change", checkBoxChanged);
         document.querySelector("#SkipIntro").addEventListener("change", checkBoxChanged);
         document.querySelector("#EasyShare").addEventListener("change", checkBoxChanged);
@@ -400,6 +407,19 @@
                 body.classList.remove("mdui-theme-layout-auto");
             }
         });
+        function sendMessageToTop(type, data) {
+            window.top.postMessage({
+                source: "VideoTogether",
+                type: type,
+                data: data
+            }, "*")
+        }
+
+        function checkUpdate() {
+            sendMessageToTop(15, { key: "PublicVtVersion", value: Date.now() });
+            mdui.snackbar({ message: getLanguageText('CheckUpdateSucc') })
+        }
+
     </script>
     <!-- MDUI JavaScript -->
     <script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/mdui/1.0.2/js/mdui.min.js"></script>

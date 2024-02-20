@@ -191,9 +191,9 @@
                                 document.querySelector("#SuperEasyShare").checked = e.data.data.SuperEasyShare;
                                 document.querySelector("#DisableNativeM3u8Player").checked = (e.data.data.DisableNativeM3u8Player != false);
                                 if (e.data.data.PublicReechoVoiceId) {
-                                    document.getElementById('voiceIdLabel').innerText = "语音角色ID: " + e.data.data.PublicReechoVoiceId
+                                    updateInnerText(document.getElementById('voiceIdLabel'), "语音角色ID: " + e.data.data.PublicReechoVoiceId)
                                 } else {
-                                    document.getElementById('voiceIdLabel').innerText = "没有真人语音角色"
+                                    updateInnerText(document.getElementById('voiceIdLabel'), "没有真人语音角色")
                                 }
                                 for (let i in settingItems) {
                                     let item = settingItems[i]
@@ -536,7 +536,14 @@
             sendMessageToTop(15, { key: "PublicVtVersion", value: Date.now() });
             mdui.snackbar({ message: getLanguageText('CheckUpdateSucc') })
         }
-
+        function updateInnerText(element, text) {
+            try {
+                if (element.innerText != text) {
+                    element.innerText = text;
+                }
+            } catch (e) {
+            }
+        }
     </script>
     <!-- MDUI JavaScript -->
     <script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/mdui/1.0.2/js/mdui.min.js"></script>

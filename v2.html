@@ -138,12 +138,18 @@
                         let _settingLanguage = undefined;
                         function updateDisplayLanguage(settingLanguage = undefined) {
                             _settingLanguage = settingLanguage;
+                            const displayLanguage = getDisplayLanguage(settingLanguage);
                             let languageDict = languageDicts[getDisplayLanguage(settingLanguage)];
                             for (let key in languageDict) {
                                 try {
                                     document.querySelector("#" + key).innerHTML = languageDict[key];
                                 } catch (e) {
                                 }
+                            }
+                            if (settingLanguage == "zh-cn") {
+                                document.getElementById('voicePannel').style.display = "block"
+                            } else {
+                                document.getElementById('voicePannel').style.display = "none"
                             }
                         }
                         function getLanguageText(key) {
@@ -180,6 +186,11 @@
                                 document.querySelector("#EasyShare").checked = (e.data.data.EasyShare != false);
                                 document.querySelector("#SuperEasyShare").checked = e.data.data.SuperEasyShare;
                                 document.querySelector("#DisableNativeM3u8Player").checked = (e.data.data.DisableNativeM3u8Player != false);
+                                if (e.data.data.PublicReechoVoiceId) {
+                                    document.getElementById('voiceIdLabel').innerText = "语音角色ID: " + e.data.data.PublicReechoVoiceId
+                                } else {
+                                    document.getElementById('voiceIdLabel').innerText = "没有真人语音角色"
+                                }
                                 for (let i in settingItems) {
                                     let item = settingItems[i]
                                     document.querySelector(`#${item.key}`).checked = e.data.data[item.key] == undefined ? item.defaultVal : e.data.data[item.key];
@@ -333,6 +344,100 @@
                                 <span class="mdui-switch-icon"></span>
                             </label>
                         </div>
+                        <div id="voicePannel" class="mdui-clearfix mdui-p-t-2">
+                            <div>
+                                <label id="voiceAlertLabel" class="mdui-float-left">
+                                    开启真人语音播报后，房间内的文字消息将会通过AI技术，模拟真人语音播报。
+                                    注意：AI语音的生成需要一定的时间，一条消息发送最长需要等待10秒，单条消息超过7个字就不会使用AI语音了。
+                                    由于对接的语音服务是收费服务，该功能目前仅限内测。请加用户QQ群：204015847 联系群主获得免费的体验资格。
+                                    <br><br>
+                                </label>
+
+                                <label id="voiceIdLabel" class="mdui-float-left">
+                                    没有真人语音角色
+                                </label>
+
+                                <div class="mdui-float-right">
+                                    <label class="mdui-float-left" id="voiceRecordSeconds"></label>
+
+                                    <button class="mdui-btn-raised mdui-btn mdui-color-theme-accent"
+                                        id="voiceRecordBtn">录制语音角色</button>
+                                    <button class="mdui-btn-raised mdui-btn mdui-color-theme-accent"
+                                        id="voiceDeleteBtn">删除语音角色</button>
+
+                                </div>
+                                <script>
+                                    let startRecordTime = undefined;
+                                    let endRecordTime = undefined;
+                                    const voiceRecordBtn = document.getElementById('voiceRecordBtn')
+                                    voiceRecordBtn.onclick = startRecording;
+
+                                    document.getElementById('voiceDeleteBtn').onclick = function () {
+                                        setStorageValue('PublicReechoVoiceId', "")
+                                    }
+                                    let mediaRecorder;
+                                    let audioChunks = [];
+
+                                    async function startRecording() {
+                                        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                                        mediaRecorder = new MediaRecorder(stream);
+                                        mediaRecorder.ondataavailable = event => {
+                                            audioChunks.push(event.data);
+                                        };
+                                        mediaRecorder.onstop = convertToBase64;
+                                        mediaRecorder.start();
+                                        startRecordTime = new Date().getTime();
+                                        endRecordTime = undefined;
+                                        voiceRecordBtn.innerText = '停止录制并创建语音角色';
+                                        voiceRecordBtn.onclick = stopRecording;
+                                    }
+
+                                    function stopRecording() {
+                                        mediaRecorder.stop();
+                                        endRecordTime = new Date().getTime();
+                                        voiceRecordBtn.innerText = '录制语音角色';
+                                        voiceRecordBtn.onclick = startRecording;
+                                    }
+
+                                    function convertToBase64() {
+                                        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                                        const reader = new FileReader();
+                                        reader.readAsDataURL(audioBlob);
+                                        reader.onloadend = () => {
+                                            const base64String = reader.result;
+                                            console.log(base64String); // This is your base64-encoded string
+                                            // base64String smaller than 5MB
+                                            if (base64String.length > 5 * 1024 * 1024) {
+                                                document.getElementById('voiceRecordSeconds').innerText = '录制的语音文件过大，请重新录制';
+                                                return;
+                                            }
+
+                                            const recordDuration = (endRecordTime - startRecordTime) / 1000
+                                            if (recordDuration < 2.5) {
+                                                document.getElementById('voiceRecordSeconds').innerText = '录制的语音文件过短，请重新录制';
+                                                return;
+                                            }
+                                            document.getElementById('voiceRecordSeconds').innerText = "录音长度" + (endRecordTime - startRecordTime) / 1000 + '秒, 上传中';
+                                            const url = "https://vt.panghair.com:5000/reecho/new_voice"
+                                            const data = {
+                                                voiceAudioBase64: base64String,
+                                            }
+                                            fetch(url, {
+                                                method: 'POST',
+                                                body: JSON.stringify(data)
+                                            }).then(response => response.json()).then(data => {
+                                                console.log(data)
+                                                const voiceId = data.voiceId
+                                                setStorageValue('PublicReechoVoiceId', voiceId)
+                                            }).catch((error) => {
+                                                console.error('Error:', error);
+                                            });
+                                        };
+                                        audioChunks = [];
+                                    }
+                                </script>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -368,7 +473,17 @@
                     }
                 }, "*")
         }
-
+        function setStorageValue(key, value) {
+            window.postMessage(
+                {
+                    type: 15,
+                    source: "VideoTogether",
+                    data: {
+                        key: key,
+                        value: value
+                    }
+                }, "*")
+        }
         document.querySelector("#MinimiseDefault").addEventListener("change", checkBoxChanged);
         // document.querySelector("#PublicVideoRoom").addEventListener("change", checkBoxChanged);
         document.querySelector("#DisableRedirectJoin").addEventListener("change", checkBoxChanged);

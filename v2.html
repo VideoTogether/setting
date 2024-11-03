@@ -79,7 +79,8 @@
     "EnableTextMessageLabel": "文本聊天",
     "EnableMiniBarLabel": "全屏视频时的迷你小窗",
     "CheckUpdateLabel": "检查更新",
-    "CheckUpdateSucc": "更新成功"
+    "CheckUpdateSucc": "更新成功",
+    "UseSelfHostedLabel": "使用自建后端服务(https)"
 },
                             "en-us": {
     "LanguageName": "English",
@@ -105,7 +106,8 @@
     "EnableTextMessageLabel": "Text Message",
     "EnableMiniBarLabel": "Mini Bar at fullscreen video",
     "CheckUpdateLabel": "Check Update",
-    "CheckUpdateSucc": "Update Successfully"
+    "CheckUpdateSucc": "Update Successfully",
+    "UseSelfHostedLabel": "Use Self-hosted(https)"
 },
                             'ja-jp': {
     "LanguageName": "日本語",
@@ -131,7 +133,8 @@
     "EnableTextMessageLabel": "テキストチャット",
     "EnableMiniBarLabel": "フルスクリーンビデオ時のミニウィンドウ",
     "CheckUpdateLabel": "更新を確認",
-    "CheckUpdateSucc": "更新に成功しました"
+    "CheckUpdateSucc": "更新に成功しました",
+    "UseSelfHostedLabel": "セルフホストを使用する(https)"
 }
 ,
                         }
@@ -237,6 +240,8 @@
                                 document.querySelector("#EasyShare").checked = (e.data.data.EasyShare != false);
                                 document.querySelector("#SuperEasyShare").checked = e.data.data.SuperEasyShare;
                                 document.querySelector("#DisableNativeM3u8Player").checked = (e.data.data.DisableNativeM3u8Player != false);
+                                document.querySelector("#UseSelfHosted").checked = e.data.data.UseSelfHosted;
+                                document.querySelector("#SelfHost").value = typeof e.data.data.SelfHost === 'string' ? e.data.data.SelfHost : "";
                                 if (e.data.data.PublicReechoVoiceId) {
                                     updateInnerText(document.getElementById('voiceIdLabel'), "语音角色ID: " + e.data.data.PublicReechoVoiceId)
                                 } else {
@@ -382,6 +387,17 @@
                                 <span class="mdui-switch-icon"></span>
                             </label>
                         </div>
+                        <div class="mdui-clearfix mdui-p-t-2">
+                            <a id="UseSelfHostedLabel"></a>
+                            <span class="mdui-textfield">
+                                <input id="SelfHost" style="display: inline-block; width: 10em;"
+                                       class="mdui-textfield-input" type="text" placeholder="http://localhost:5000"/>
+                            </span>
+                            <label class="mdui-switch mdui-float-right">
+                                <input id="UseSelfHosted" type="checkbox">
+                                <span class="mdui-switch-icon"></span>
+                            </label>
+                        </div>
                         <div id="voicePannel" class="mdui-clearfix mdui-p-t-2">
                             <div>
                                 <label id="voiceAlertLabel" class="mdui-float-left">
@@ -497,7 +513,7 @@
 
             console.log(e.target.id);
             let value = e.target.checked;
-            if (e.target.id == "DisplayLanguage" || e.target.id == "SkipIntroLength") {
+            if (e.target.id == "DisplayLanguage" || e.target.id == "SkipIntroLength" || e.target.id == "SelfHost") {
                 value = e.target.value;
             }
 
@@ -533,6 +549,8 @@
         document.querySelector("#SuperEasyShare").addEventListener("change", checkBoxChanged);
         document.querySelector("#DisableNativeM3u8Player").addEventListener("change", checkBoxChanged);
         document.querySelector("#SkipIntroLength").addEventListener("input", checkBoxChanged);
+        document.querySelector("#UseSelfHosted").addEventListener("change", checkBoxChanged);
+        document.querySelector("#SelfHost").addEventListener("input", checkBoxChanged);
         for (let i in settingItems) {
             let item = settingItems[i]
             document.querySelector(`#${item.key}`).addEventListener("change", checkBoxChanged);
